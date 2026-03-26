@@ -27,5 +27,3 @@ def load_all_documents(data_dir: str) -> List[Any]:
             print(f"[DEBUG] got an error: {e} while loading PDF {pdf_file}")
             
     return documents
-            
-print(load_all_documents('C:/Users/PMLS/Desktop/IEDE/GroundMD-healthcare-rag/data/raw/guidelines'))
