@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from ingestion.vector_store import FaissVectorStore
+from ingestion.faiss_store import FaissVectorStore
 from ingestion.data_loader import DataLoader
 
 
