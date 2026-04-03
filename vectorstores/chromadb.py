@@ -25,7 +25,7 @@ class ChromaVectorStore:
         self.collection_name = collection_name
         
         self.client = chromadb.PersistentClient(path=str(self.persist_dir))
-        self.collection = self.client.get_or_create_collection(name=collection_name)
+        self.collection = self.client.get_or_create_collection(name=self.collection_name)
         
         self.embedder = EmbeddingPipeline(
             model_name = self.model_name,
