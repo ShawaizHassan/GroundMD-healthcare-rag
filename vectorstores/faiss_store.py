@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import List, Dict, Any
 
 import faiss
+
 import numpy as np
 from langchain_core.documents import Document
 from sentence_transformers import SentenceTransformer
@@ -32,7 +33,7 @@ class FaissVectorStore:
         self.metadata: List[Dict[str, Any]] = []
 
         # Same model used for query embeddings
-        self.query_model = SentenceTransformer(embedding_model)
+        self.embedding_model = SentenceTransformer(embedding_model)
 
         print(f"[INFO] Loaded embedding model: {embedding_model}")
 
@@ -128,59 +129,59 @@ class FaissVectorStore:
 
         print(f"[INFO] Saved FAISS index and metadata to {self.persist_dir}")
 
-    def load(self) -> None:
-        if not self.index_path.exists():
-            raise FileNotFoundError(f"FAISS index file not found: {self.index_path}")
+    # def load(self) -> None:
+    #     if not self.index_path.exists():
+    #         raise FileNotFoundError(f"FAISS index file not found: {self.index_path}")
 
-        if not self.metadata_path.exists():
-            raise FileNotFoundError(f"Metadata file not found: {self.metadata_path}")
+    #     if not self.metadata_path.exists():
+    #         raise FileNotFoundError(f"Metadata file not found: {self.metadata_path}")
 
-        self.index = faiss.read_index(str(self.index_path))
+    #     self.index = faiss.read_index(str(self.index_path))
 
-        with open(self.metadata_path, "rb") as f:
-            self.metadata = pickle.load(f)
+    #     with open(self.metadata_path, "rb") as f:
+    #         self.metadata = pickle.load(f)
 
-        print(f"[INFO] Loaded FAISS index and metadata from {self.persist_dir}")
+    #     print(f"[INFO] Loaded FAISS index and metadata from {self.persist_dir}")
 
-    def search(self, query_embedding: np.ndarray, top_k: int = 5) -> List[Dict[str, Any]]:
-        if self.index is None:
-            raise ValueError("FAISS index is not loaded or built yet.")
+    # def search(self, query_embedding: np.ndarray, top_k: int = 5) -> List[Dict[str, Any]]:
+    #     if self.index is None:
+    #         raise ValueError("FAISS index is not loaded or built yet.")
 
-        query_embedding = np.asarray(query_embedding, dtype=np.float32)
-        if query_embedding.ndim != 2:
-            raise ValueError(
-                f"Query embedding must be 2D with shape (1, dim), got {query_embedding.shape}"
-            )
+    #     query_embedding = np.asarray(query_embedding, dtype=np.float32)
+    #     if query_embedding.ndim != 2:
+    #         raise ValueError(
+    #             f"Query embedding must be 2D with shape (1, dim), got {query_embedding.shape}"
+    #         )
 
-        faiss.normalize_L2(query_embedding)
+    #     faiss.normalize_L2(query_embedding)
 
-        scores, indices = self.index.search(query_embedding, top_k)
+    #     scores, indices = self.index.search(query_embedding, top_k)
 
-        results: List[Dict[str, Any]] = []
-        for idx, score in zip(indices[0], scores[0]):
-            if idx == -1:
-                continue
+    #     results: List[Dict[str, Any]] = []
+    #     for idx, score in zip(indices[0], scores[0]):
+    #         if idx == -1:
+    #             continue
 
-            meta = self.metadata[idx] if idx < len(self.metadata) else None
-            results.append(
-                {
-                    "index": int(idx),
-                    "score": float(score),
-                    "metadata": meta,
-                }
-            )
+    #         meta = self.metadata[idx] if idx < len(self.metadata) else None
+    #         results.append(
+    #             {
+    #                 "index": int(idx),
+    #                 "score": float(score),
+    #                 "metadata": meta,
+    #             }
+    #         )
 
-        return results
+    #     return results
 
-    def query(self, query_text: str, top_k: int = 5) -> List[Dict[str, Any]]:
-        if not query_text.strip():
-            raise ValueError("Query text cannot be empty.")
+    # def query(self, query_text: str, top_k: int = 5) -> List[Dict[str, Any]]:
+    #     if not query_text.strip():
+    #         raise ValueError("Query text cannot be empty.")
 
-        print(f"[INFO] Querying vector store for: {query_text!r}")
+    #     print(f"[INFO] Querying vector store for: {query_text!r}")
 
-        query_embedding = self.query_model.encode(
-            [query_text],
-            convert_to_numpy=True,
-        ).astype(np.float32)
+    #     query_embedding = self.embedding_model.encode(
+    #         [query_text],
+    #         convert_to_numpy=True,
+    #     ).astype(np.float32)
 
-        return self.search(query_embedding, top_k=top_k)
+    #     return self.search(query_embedding, top_k=top_k)

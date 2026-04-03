@@ -39,7 +39,7 @@ class EmbeddingPipeline:
         print(f"[INFO] Generated document embeddings with shape {embeddings.shape}")
         return embeddings
 
-    def generate_query_embeddings(self, text: str) -> np.ndarray:
+    def generate_query_embedding(self, text: str) -> np.ndarray:
         if self.model is None:
             raise ValueError("[ERROR] Embedding model is not loaded.")
 
@@ -47,12 +47,12 @@ class EmbeddingPipeline:
             raise ValueError("[ERROR] Query text cannot be empty.")
 
         print("[INFO] Generating embedding for query text...")
-        embeddings = self.model.encode(
+        query_embedding = self.model.encode(
             [text.strip()],
             show_progress_bar=False,
             convert_to_numpy=True,
             normalize_embeddings=True,
         ).astype(np.float32)
 
-        print(f"[INFO] Generated query embedding with shape {embeddings.shape}")
-        return embeddings
+        print(f"[INFO] Generated query embedding with shape {query_embedding.shape}")
+        return query_embedding

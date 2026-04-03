@@ -11,7 +11,7 @@ def get_disease_name(filename, disease_names):
             return disease
     return "unknown"
 class DataLoader:
-    def __init__(self, data_dir = r"C:\Users\PMLS\Desktop\IEDE\GroundMD-healthcare-rag\data\sample_test"):
+    def __init__(self, data_dir = r"C:\Users\PMLS\Desktop\IEDE\GroundMD-healthcare-rag\data\raw\guidelines"):
         self.data_dir = data_dir
     
     def load_all_documents(self, data_dir = None) -> List[Document]:
