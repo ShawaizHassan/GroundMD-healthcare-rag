@@ -2,15 +2,17 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from vectorstores.faiss_store import FaissVectorStore
+from vectorstores.chromadb import ChromaVectorStore
+from retriever.search import RetrieverPipeline
 from ingestion.data_loader import DataLoader
 
 
 
 # Example usage
 if __name__ == "__main__":
-    dataloader = DataLoader()
-    docs = dataloader.load_all_documents()
-    store = FaissVectorStore()
-    store.build_from_documents(docs)
-    store.load()
-    print(store.query("What are the recommended screening interventions for adolescents (10–19 years) living with HIV?", top_k=2))
+    # dataloader = DataLoader()
+    # docs = dataloader.load_all_documents()
+    # store = ChromaVectorStore()
+    # store.build_from_documents(docs)
+    chroma_retriever = RetrieverPipeline()
+    print(chroma_retriever.query("What are the recommended HbA1c targets for patients with type 2 diabetes?", top_k=2))

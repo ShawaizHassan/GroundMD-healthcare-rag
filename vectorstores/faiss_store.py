@@ -16,7 +16,7 @@ from ingestion.embedder import EmbeddingPipeline
 class FaissVectorStore:
     def __init__(
         self,
-        persist_dir: str = "../data/faiss_store",
+        persist_dir: str = r"C:\Users\PMLS\Desktop\IEDE\GroundMD-healthcare-rag\data\faiss_store",
         embedding_model: str = "multi-qa-MiniLM-L6-cos-v1",
         chunk_size: int = 1000,
         chunk_overlap: int = 200,

@@ -11,7 +11,7 @@ from ingestion.embedder import EmbeddingPipeline
 
 class ChromaVectorStore:
     def __init__(self, 
-                 persist_dir: str = "/data/chroma_store", 
+                 persist_dir: str = r"C:\Users\PMLS\Desktop\IEDE\GroundMD-healthcare-rag\data\chroma_store", 
                  collection_name: str = "healthcare_docs", 
                  embdedding_model: str = "multi-qa-MiniLM-L6-cos-v1", 
                  chunk_size: int = 1000, 
@@ -35,7 +35,7 @@ class ChromaVectorStore:
         
         print(f"[INFO] chromadb collection: {self.collection_name} is ready")
         
-    def build_from_docs(self, documents: List[Document]) -> None:
+    def build_from_documents(self, documents: List[Document]) -> None:
         if not documents:
             raise ValueError("[DEBUG]No documents are provided")
         
@@ -57,7 +57,7 @@ class ChromaVectorStore:
         
         ids: list[str] = []
         texts: list[str] = []
-        metadatas: list[dict[str, Any]]
+        metadatas: list[dict[str, Any]] = []
         for i, chunk in enumerate(chunks):
             ids.append(f"chunk_{i}")
             texts.append(chunk.page_content)
