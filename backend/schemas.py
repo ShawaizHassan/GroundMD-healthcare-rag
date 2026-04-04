@@ -9,5 +9,3 @@ class QueryResponse(BaseModel):
     answer: str
     sources: List[str]
     status: str
-
-    
