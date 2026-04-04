@@ -10,12 +10,11 @@ from ingestion.data_loader import DataLoader
 
 # Example usage
 if __name__ == "__main__":
-    # dataloader = DataLoader()
-    # docs = dataloader.load_all_documents()
-    # store = ChromaVectorStore()
-    # store.build_from_documents(docs)
-    # chroma_retriever = ChromaRetriever()
+    dataloader = DataLoader(r"C:\Users\PMLS\Desktop\IEDE\GroundMD-healthcare-rag\data\raw\guidelines")
+    docs = dataloader.load_all_documents()
+    store = ChromaVectorStore()
+    store.build_from_documents(docs)
+    chroma_retriever = ChromaRetriever()
     
-    faiss_retriever = FaissRetriever()
     
-    print(faiss_retriever.query("What are the recommended HbA1c targets for patients with type 2 diabetes?", top_k=2))
+    print(chroma_retriever.query("What are the recommended HbA1c targets for patients with type 2 diabetes?", top_k=2))
