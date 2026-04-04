@@ -10,10 +10,10 @@ from ingestion.data_loader import DataLoader
 
 # Example usage
 if __name__ == "__main__":
-    dataloader = DataLoader(r"C:\Users\PMLS\Desktop\IEDE\GroundMD-healthcare-rag\data\raw\guidelines")
-    docs = dataloader.load_all_documents()
-    store = ChromaVectorStore()
-    store.build_from_documents(docs)
+    # dataloader = DataLoader(r"C:\Users\PMLS\Desktop\IEDE\GroundMD-healthcare-rag\data\raw\guidelines")
+    # docs = dataloader.load_all_documents()
+    # store = ChromaVectorStore()
+    # store.build_from_documents(docs)
     chroma_retriever = ChromaRetriever()
     
     

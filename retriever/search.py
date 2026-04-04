@@ -6,7 +6,6 @@ import faiss
 import pickle
 import numpy as np
 
-from vectorstores.chroma_store import ChromaVectorStore
 from ingestion.embedder import EmbeddingPipeline
 
 class ChromaRetriever:
