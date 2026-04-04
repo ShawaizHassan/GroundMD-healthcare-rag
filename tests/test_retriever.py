@@ -5,6 +5,7 @@ from vectorstores.faiss_store import FaissVectorStore
 from vectorstores.chroma_store import ChromaVectorStore
 from retriever.search import ChromaRetriever, FaissRetriever
 from ingestion.data_loader import DataLoader
+from retriever.reranker import Reranker
 
 
 
@@ -15,6 +16,8 @@ if __name__ == "__main__":
     # store = ChromaVectorStore()
     # store.build_from_documents(docs)
     chroma_retriever = ChromaRetriever()
-    
-    
-    print(chroma_retriever.query("What are the recommended HbA1c targets for patients with type 2 diabetes?", top_k=2))
+    reranker = Reranker()
+    query = "What are the recommended HbA1c targets for patients with type 2 diabetes?"
+    retrieved_docs = chroma_retriever.query(query, top_k=10)
+    final_answer = reranker.rerank(query, retrieved_docs, top_k=3)
+    print(final_answer)
