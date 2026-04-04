@@ -1,7 +1,8 @@
 def process_query(query:str):
+
     return {
         "query": query,
-        "answer": "This is a mock Backend response for now",
+        "answer": "Mock answer (FAISS not connected yet)",
         "sources": [],
         "status": "success"
     }
