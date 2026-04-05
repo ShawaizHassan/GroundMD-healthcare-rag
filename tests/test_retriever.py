@@ -6,7 +6,7 @@ from vectorstores.chroma_store import ChromaVectorStore
 from retriever.search import ChromaRetriever, FaissRetriever
 from ingestion.data_loader import DataLoader
 from retriever.reranker import Reranker
-from generation.prompt_builder import PromptBuilder
+from generator.prompt_builder import PromptBuilder
 
 
 
