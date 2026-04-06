@@ -14,7 +14,7 @@ medical_info = {
     "hypertension": "Hypertension or high blood pressure is when blood pressure is above 130/80 mmHg.",
     "asthma": "Asthma causes breathing difficulty. Treatment includes inhalers.",
     "pregnancy": "Pregnancy lasts about 40 weeks. Prenatal care includes regular checkups and healthy diet.",
-    "malaria": "Malaria is a life-threatening disease caused by parasites transmitted through mosquito bites. Symptoms: fever, chills, headache,                   nausea. Treatment: antimalarial drugs like artemisinin. Prevention: mosquito nets, insect repellent."
+    "malaria": "Malaria is a life-threatening disease caused by parasites transmitted through mosquito bites. Symptoms: fever, chills, headache, nausea. Treatment: antimalarial drugs.",
 }
 
 def find_relevant_info(query):
