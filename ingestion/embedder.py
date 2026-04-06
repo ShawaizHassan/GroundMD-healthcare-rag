@@ -1,58 +1,68 @@
+from typing import List, Tuple
 from sentence_transformers import SentenceTransformer
-from typing import List
 from langchain_core.documents import Document
-import numpy as np
 
 
 class EmbeddingPipeline:
     def __init__(
         self,
         model_name: str = "multi-qa-MiniLM-L6-cos-v1",
-        chunk_size: int = 1000,
-        chunk_overlap: int = 200,
-    ):
+        batch_size: int = 64,
+    ) -> None:
         self.model_name = model_name
-        self.chunk_size = chunk_size
-        self.chunk_overlap = chunk_overlap
+        self.batch_size = batch_size
         self.model = SentenceTransformer(self.model_name)
-        print(f"[INFO] Model '{self.model_name}' has been loaded")
+        print(f"[INFO] Model '{self.model_name}' loaded successfully")
 
-    def generate_embeddings(self, chunks: List[Document]) -> np.ndarray:
-        if self.model is None:
-            raise ValueError("[ERROR] Embedding model is not loaded.")
-
+    def filter_valid_chunks(self, chunks: List[Document]) -> List[Document]:
         if not chunks:
-            raise ValueError("[ERROR] Chunks list is empty.")
+            raise ValueError("Chunks list is empty")
 
-        texts = [chunk.page_content.strip() for chunk in chunks if chunk.page_content.strip()]
-        if not texts:
-            raise ValueError("[ERROR] No valid chunk text found for embedding.")
+        valid_chunks = []
+        for chunk in chunks:
+            text = chunk.page_content.strip() if chunk.page_content else ""
+            if text:
+                valid_chunks.append(chunk)
 
-        print(f"[INFO] Generating embeddings for {len(texts)} document chunks...")
+        if not valid_chunks:
+            raise ValueError("No valid chunk text found for embedding")
+
+        return valid_chunks
+
+    def generate_embeddings(self, chunks: List[Document]) -> list[list[float]]:
+        valid_chunks = self.filter_valid_chunks(chunks)
+        texts = [chunk.page_content.strip() for chunk in valid_chunks]
+
+        print(f"[INFO] Generating embeddings for {len(texts)} chunks")
+
         embeddings = self.model.encode(
             texts,
+            batch_size=self.batch_size,
             show_progress_bar=True,
             convert_to_numpy=True,
             normalize_embeddings=True,
-        ).astype(np.float32)
+        ).tolist()
 
-        print(f"[INFO] Generated document embeddings with shape {embeddings.shape}")
+        print(f"[INFO] Generated {len(embeddings)} embeddings")
         return embeddings
 
-    def generate_query_embedding(self, text: str) -> np.ndarray:
+    def generate_query_embedding(self, text: str) -> list[float]:
         if self.model is None:
-            raise ValueError("[ERROR] Embedding model is not loaded.")
+            raise ValueError("Embedding model is not loaded")
 
         if not text or not text.strip():
-            raise ValueError("[ERROR] Query text cannot be empty.")
+            raise ValueError("Query text cannot be empty")
 
-        print("[INFO] Generating embedding for query text...")
+        clean_text = text.strip()
+
+        print("[INFO] Generating query embedding")
+
         query_embedding = self.model.encode(
-            [text.strip()],
+            clean_text,
             show_progress_bar=False,
             convert_to_numpy=True,
             normalize_embeddings=True,
-        ).astype(np.float32)
+        ).tolist()
 
-        print(f"[INFO] Generated query embedding with shape {query_embedding.shape}")
+        print(f"[INFO] Generated query embedding of dimension {len(query_embedding)}")
         return query_embedding
