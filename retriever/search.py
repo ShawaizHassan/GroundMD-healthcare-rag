@@ -58,7 +58,7 @@ class ChromaRetriever:
 class FaissRetriever:
     def __init__(
         self,
-        persist_dir: str = r"C:\Users\PMLS\Desktop\IEDE\GroundMD-healthcare-rag\data\faiss_store",
+        persist_dir: str = "C:/temp/faiss_store",
         embedding_model: str = "multi-qa-MiniLM-L6-cos-v1"
         ):
         
