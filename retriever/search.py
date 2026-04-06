@@ -15,11 +15,11 @@ class ChromaRetriever:
                  collection_name: str = "healthcare_docs"
                  ):
         self.embedding_model = embedding_model
-        self.persist_dir = Path(persist_dir)
+        self.persist_dir = Path("C:/temp/chroma_store")
         self.collection_name = collection_name
         
         self.client = chromadb.PersistentClient(path=str(self.persist_dir))
-        self.collection = self.client.get_collection(name=self.collection_name)
+        self.collection = self.client.get_or_create_collection(name=self.collection_name)
         
     def query(self, query_text: str, top_k: int = 5) -> List[dict[str, Any]]:
         if not query_text.strip():
