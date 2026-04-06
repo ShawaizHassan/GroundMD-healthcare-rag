@@ -1,0 +1,7 @@
+__pycache__/
+medical_db/
+*.pyc
+.vscode/
+.idea/
+*.log
+.DS_Store
