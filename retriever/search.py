@@ -20,13 +20,13 @@ class ChromaRetriever:
         
         self.client = chromadb.PersistentClient(path=str(self.persist_dir))
         self.collection = self.client.get_or_create_collection(name=self.collection_name)
+        self.embedder = EmbeddingPipeline()
         
     def query(self, query_text: str, top_k: int = 5) -> List[dict[str, Any]]:
         if not query_text.strip():
             raise ValueError("[DEBUG] query cannot be empty")
         
         
-        self.embedder = EmbeddingPipeline()
         query_embedding = self.embedder.generate_query_embedding(query_text)
         
         print(f"[INFO] Querying vector store for: {query_text!r}")
@@ -42,18 +42,27 @@ class ChromaRetriever:
         metadatas = results.get("metadatas", [[]])[0]
         distances = results.get("distances", [[]])[0]
         
+        THRESHOLD = 1.2
         
         for id, doc_text, doc_metadata, distance in zip(
             ids, documents, metadatas, distances
         ):
-            output.append({
-                'id': id,
-                "document": doc_text,
-                "metadata": doc_metadata,
-                "distance": distance
-            })
-            
-        return output
+            if distance < THRESHOLD:
+                output.append({
+                    "text": doc_text,
+                    "score": distance,
+                    "source": doc_metadata.get("source", "unknown")
+                })
+                
+        if not output:
+            print("[WARNING] No strong match, returning top result")
+            return [{
+                "text": documents[0],
+                "score": distances[0],
+                "source": metadatas[0].get("source", "unknown")
+            }]
+        
+        return  output[:2]
     
 class FaissRetriever:
     def __init__(
@@ -65,6 +74,7 @@ class FaissRetriever:
         self.persist_dir = Path(persist_dir)
         self.embedding_model = embedding_model
         self.index: faiss.Index | None = None
+        self.embedder = EmbeddingPipeline()
     
     @property
     def index_path(self) -> Path:
@@ -127,7 +137,6 @@ class FaissRetriever:
 
         print(f"[INFO] Querying vector store for: {query_text!r}")
 
-        self.embedder = EmbeddingPipeline()
         query_embedding = self.embedder.generate_query_embedding(query_text)
 
         return self.search(query_embedding, top_k=top_k)
