@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import ollama
 import re
-
+from llm.ollama_client import OllamaLLM
 app = FastAPI()
 
 # Medical knowledge base
