@@ -24,11 +24,10 @@ retriever.collection.add(
 
 # TESTING QUERIES
 queries = [
-    "What is diabetes?",
-    "Symptoms of hypertension",
-    "Treatment for asthma",
-    "Causes of heart disease",
-    "What is flu?"
+    "Explain diabetes briefly",
+    "What causes high blood pressure?",
+    "How do you treat asthma?",
+    "Why do people get heart disease?"
 ]
 
 # RETRIEVAL

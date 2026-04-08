@@ -54,13 +54,14 @@ class ChromaRetriever:
                     "source": doc_metadata.get("source", "unknown")
                 })
                 
-        if not output:
-            print("[WARNING] No strong match, returning top result")
-            return [{
-                "text": documents[0],
-                "score": distances[0],
-                "source": metadatas[0].get("source", "unknown")
-            }]
+            if not output:
+                print("[WARNING] No strong match")
+
+                return [{
+                    "text": "No relevant information found.",
+                    "score": None,
+                    "source": None
+                }]
         
         return  output[:2]
     
