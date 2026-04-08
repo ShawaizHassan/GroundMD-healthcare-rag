@@ -1,17 +1,10 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
+from backend.schemas import QueryRequest, QueryResponse
+from backend.service import process_query
 
-router = APIRouter()
+router = APIRouter(prefix="/api", tags=["Backend"])
 
-class QueryRequest(BaseModel):
-    query: str
-
-
-@router.post("/query")
+@router.post("/query", response_model=QueryResponse)
 def query_handler(request: QueryRequest):
-    return {
-        "query": request.query,
-        "answer": "Mock Answer",
-        "sources": [],
-        "status": "success"
-    }
+    result = process_query(request.query)
+    return QueryResponse(**result)
