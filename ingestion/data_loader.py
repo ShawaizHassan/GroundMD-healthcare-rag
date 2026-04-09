@@ -3,6 +3,7 @@ from typing import List
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_core.documents import Document
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 DISEASES_LIST = ["hiv", "dengue", "malaria", "diabetes", "tb"]
 
@@ -20,9 +21,12 @@ def get_disease_name(filename: str, disease_names: List[str]) -> str:
 class DataLoader:
     def __init__(
         self,
-        data_dir: str = r"C:\Users\PMLS\Desktop\IEDE\GroundMD-healthcare-rag\data\raw\guidelines",
+        data_dir: str = None,
     ) -> None:
-        self.data_dir = Path(data_dir).resolve()
+        if data_dir is None:
+            self.data_dir = BASE_DIR / "data" / "raw" / "guidelines"
+        else:
+            self.data_dir = Path(data_dir).resolve()
 
     def load_all_documents(self, data_dir: str | None = None) -> List[Document]:
         data_path = Path(data_dir).resolve() if data_dir else self.data_dir

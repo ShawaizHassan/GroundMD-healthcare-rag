@@ -25,4 +25,6 @@ if __name__ == "__main__":
     context = prompt_builder.build_context(reranked_docs)
     prompt = prompt_builder.build_prompt(query, reranked_docs)
     
-    print(prompt)
+    os.makedirs("prompts", exist_ok=True)
+    with open("prompts/rag_prompt.txt", "w", encoding="utf-8") as f:
+        f.write(prompt)

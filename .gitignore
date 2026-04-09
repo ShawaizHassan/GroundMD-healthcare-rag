@@ -9,3 +9,8 @@ venv/
 # OS files
 .DS_Store
 Thumbs.db
+
+# db files
+data/chroma_store
+data/faiss_store
+data/chroma_store/chroma.sqlite3
