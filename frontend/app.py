@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import json
 import time
+import os
 from datetime import datetime
 
 from components.chat import render_chat
@@ -145,9 +146,8 @@ if "query_input" not in st.session_state:
     st.session_state.query_input = ""
 
 # ── Configuration ─────────────────────────────────────────────────────────────
-MOCK_MODE = True
-API_BASE_URL = "http://localhost:8000"
-
+MOCK_MODE = False
+API_BASE_URL = os.getenv("API_BASE_URL", "http://backend:8000")
 # ── Mock data ─────────────────────────────────────────────────────────────────
 MOCK_RESPONSES = [
     {
@@ -191,7 +191,7 @@ def call_backend(query: str, top_k: int) -> dict:
 
     endpoint = f"{API_BASE_URL}/api/query"
     try:
-        resp = requests.post(endpoint, json={"query": query, "top_k": top_k}, timeout=30)
+        resp = requests.post(endpoint, json={"query": query, "top_k": top_k}, timeout=300)
         resp.raise_for_status()
         return resp.json()
     except requests.exceptions.ConnectionError:
@@ -299,35 +299,25 @@ if result:
 
         st.markdown("</div>", unsafe_allow_html=True)
 
-        sources = result.get("sources", [])
+        citations = result.get("citations", [])
         st.markdown(f"""
         <div class="sources-wrap">
-            <div class="card-label">📚 Retrieved Sources ({len(sources)})</div>
+            <div class="card-label">📚 Retrieved Sources ({len(citations)})</div>
         """, unsafe_allow_html=True)
 
-        if sources:
-            for i, src in enumerate(sources):
-                if isinstance(src, dict):
-                    title = src.get("title", src.get("text", f"Source {i+1}"))
-                    page = src.get("page", src.get("location", ""))
-                    relevance = src.get("relevance", src.get("score"))
-                    rel_str = f"relevance: {int(relevance * 100)}%" if relevance else ""
-                    meta = " · ".join(filter(None, [page, rel_str]))
-                else:
-                    title, meta = str(src), ""
-
+        if citations:
+            for i, citation in enumerate(citations):
                 st.markdown(f"""
                 <div class="source-item">
                     <span class="src-num">{i+1:02d}</span>
                     <div>
-                        <div class="src-text">{title}</div>
-                        {"<div class='src-meta'>" + meta + "</div>" if meta else ""}
+                        <div class="src-text">{citation}</div>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
         else:
             st.markdown(
-                "<div style='color:#5a7190;font-size:0.83rem'>No sources returned.</div>",
+                "<div style='color:#5a7190;font-size:0.83rem'>No citations returned.</div>",
                 unsafe_allow_html=True,
             )
 

@@ -1,15 +1,16 @@
+import os
 import requests
 
 
 class OllamaLLM:
     def __init__(
         self,
-        model: str = "phi3",
-        base_url: str = "http://127.0.0.1:11434",
-        timeout: int = 150
+        model: str | None = None,
+        base_url: str | None = None,
+        timeout: int = 250
     ) -> None:
-        self.model = model
-        self.base_url = base_url.rstrip("/")
+        self.model = model or os.getenv("OLLAMA_MODEL", "phi3")
+        self.base_url = (base_url or os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")).rstrip("/")
         self.timeout = timeout
 
     def generate(self, prompt: str) -> str:
