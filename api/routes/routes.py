@@ -1,22 +1,29 @@
 from fastapi import APIRouter, HTTPException
 from api.models.schemas import UserInput, OutputResponse
 from api.service import Services
+from llm.ollama_client import OllamaLLM
 
 router = APIRouter(prefix="/api", tags=["Healthcare AI Backend"])
 
-# 1. Initialize ONCE here (outside the functions)
-# This loads models into memory during startup, not during the request
-service_instance = Services(llm=None)
 
 @router.get("/health")
 async def health():
     return {"status": "success"}
 
-# Initialize ONCE at the top of the file
-service = Services(llm=None)
+
+llm = OllamaLLM(
+    model="phi3",
+    base_url="http://127.0.0.1:11434"
+)
+
+service = Services(llm=llm)
+
 
 @router.post("/query", response_model=OutputResponse)
 def query_handler(request: UserInput):
-    # Use the pre-loaded instance instead of creating a new one
     result = service.process_query(query=request.query, top_k=request.top_k)
+
+    if result["status"] == "error":
+        raise HTTPException(status_code=500, detail=result["answer"])
+
     return OutputResponse(**result)
