@@ -21,12 +21,15 @@ class ChromaRetriever:
         self.client = chromadb.PersistentClient(path=str(self.persist_dir))
         self.collection = self.client.get_collection(name=self.collection_name)
         
+        self.embedder = EmbeddingPipeline()
+
+        
     def query(self, query_text: str, top_k: int = 5) -> List[dict[str, Any]]:
         if not query_text.strip():
             raise ValueError("[DEBUG] query cannot be empty")
         
         
-        self.embedder = EmbeddingPipeline()
+        # self.embedder = EmbeddingPipeline()
         query_embedding = self.embedder.generate_query_embedding(query_text)
         
         print(f"[INFO] Querying vector store for: {query_text!r}")

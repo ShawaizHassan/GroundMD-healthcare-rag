@@ -1,11 +1,11 @@
 from pydantic import BaseModel
 from typing import List
 
-class QueryRequest(BaseModel):
+class UserInput(BaseModel):
     query: str
+    top_k: int
 
-class QueryResponse(BaseModel):
-    query: str
+class OutputResponse(BaseModel):
     answer: str
     sources: List[str]
     status: str
