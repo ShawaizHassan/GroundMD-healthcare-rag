@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from api.schema import UserInput, OutputResponse
+from api.models.schemas import UserInput, OutputResponse
 from api.service import Services
 
 router = APIRouter(prefix="/api", tags=["Healthcare AI Backend"])
