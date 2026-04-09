@@ -52,7 +52,10 @@ class Services:
     def _extract_citations(self, docs: List[Dict[str, Any]]) -> List[str]:
         citations = []
         for doc in docs:
-            source = doc.get("source", "unknown")
-            page = doc.get("page", "unknown")
-            citations.append(f"[{source}, page {page}]")
+            metadata = doc.get("metadata", {})
+            source = metadata.get("source_file", "unknown")
+            page = metadata.get("page", "unknown")
+            disease = metadata.get("disease_name", "unknown")
+            relevance = doc.get("rerank_score", "unknown")
+            citations.append(f"[Source: {source}, page {page}]\n Disease: {disease} \n Relevance: {relevance}")
         return citations

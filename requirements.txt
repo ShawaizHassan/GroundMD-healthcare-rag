@@ -10,6 +10,5 @@ numpy==1.26.4
 fastapi==0.112.0
 uvicorn==0.30.6
 tqdm==4.66.5
-fastapi
 uvicorn
 pydantic

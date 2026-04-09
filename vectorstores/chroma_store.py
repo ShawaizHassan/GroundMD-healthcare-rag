@@ -23,7 +23,7 @@ class ChromaVectorStore:
         batch_size: int = 1000,
     ) -> None:
         if persist_dir is None:
-            self.persist_dir = BASE_DIR / "chroma_store"
+            self.persist_dir = BASE_DIR / "data" / "chroma_store"
         else:
             self.persist_dir = Path(persist_dir)
             
