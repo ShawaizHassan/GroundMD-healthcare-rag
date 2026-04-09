@@ -13,15 +13,19 @@ from sentence_transformers import SentenceTransformer
 from ingestion.chunker import Chunker
 from ingestion.embedder import EmbeddingPipeline
 
-
+BASE_DIR = Path(__file__).parent.parent
 class FaissVectorStore:
     def __init__(
         self,
-        persist_dir: str = r"C:\Users\PMLS\Desktop\IEDE\GroundMD-healthcare-rag\data\faiss_store",
+        persist_dir: str = None,
         embedding_model: str = "multi-qa-MiniLM-L6-cos-v1",
         chunk_size: int = 1000,
         chunk_overlap: int = 200,
     ):
+        if persist_dir is None:
+            self.persist_dir = BASE_DIR / "faiss_store"
+        else:
+            self.persist_dir = Path(persist_dir)
         self.persist_dir = Path(persist_dir)
         self.persist_dir.mkdir(parents=True, exist_ok=True)
 
