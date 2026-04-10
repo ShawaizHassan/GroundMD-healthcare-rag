@@ -20,7 +20,7 @@ class ChromaVectorStore:
         embedding_model: str = "multi-qa-MiniLM-L6-cos-v1",
         chunk_size: int = 1000,
         chunk_overlap: int = 200,
-        batch_size: int = 1000,
+        batch_size: int = 2000,
     ) -> None:
         if persist_dir is None:
             self.persist_dir = BASE_DIR / "data" / "chroma_store"
