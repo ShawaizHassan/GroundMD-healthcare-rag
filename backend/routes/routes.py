@@ -1,9 +1,10 @@
 from fastapi import APIRouter, HTTPException
-from api.models.schemas import UserInput, OutputResponse
-from api.service import Services
+from backend.models.schemas import UserInput, OutputResponse
+from backend.service import Services
 from llm.ollama_client import OllamaLLM
+import os
 
-router = APIRouter(prefix="/api", tags=["Healthcare AI Backend"])
+router = APIRouter(prefix="/backend", tags=["Healthcare AI Backend"])
 
 
 @router.get("/health")
@@ -12,8 +13,8 @@ async def health():
 
 
 llm = OllamaLLM(
-    model="phi3",
-    base_url="http://127.0.0.1:11434"
+    model=os.getenv("OLLAMA_MODEL", "phi3"),
+    base_url=os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")
 )
 
 service = Services(llm=llm)

@@ -14,7 +14,7 @@ class OllamaLLM:
         self.timeout = timeout
 
     def generate(self, prompt: str) -> str:
-        url = f"{self.base_url}/api/generate"
+        url = f"{self.base_url}/backend/generate"
 
         payload = {
             "model": self.model,

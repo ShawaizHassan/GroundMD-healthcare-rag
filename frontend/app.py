@@ -189,7 +189,7 @@ def call_backend(query: str, top_k: int) -> dict:
         r["query"] = query
         return r
 
-    endpoint = f"{API_BASE_URL}/api/query"
+    endpoint = f"{API_BASE_URL}/backend/query"
     try:
         resp = requests.post(endpoint, json={"query": query, "top_k": top_k}, timeout=300)
         resp.raise_for_status()
