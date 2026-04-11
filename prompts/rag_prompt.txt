@@ -21,16 +21,6 @@ File: ncg_kenya_diabetes_guidelines_who_2024.pdf
 Page: 108
 Content: Third Edition 2024 109 22.1: Glycemic Targets and Self-Monitoring of Blood Glucose in Diabetes • HBA1C monitoring should be done every 3-6 months and should be done at labs that have been accredited by the International Federation of Clinical Chemistry standardization. • For adults who are on lifestyle management or not on a drug associated with hypoglycaemia, a HBA1C target of 6.5% is recommended. • For adults who have a drug that is associated with hypoglycaemia, the target is 7.0% • Individualized target is recommended for patients with type 2 diabetes who are older and frail, or who have reduced life expectancy, have a high risk of hypoglycaemia of who have significant co-morbidities which make intensive management inappropriate. The target can be higher than 7. Figure 44: Glycaemic Targets 22.2: HBA1C targets including in special groups (1,2) Parameter More stringent Less stringent HbA1c (%) <7.0 <8.0 Fasting/pre-prandial glucose (mmol/L) 4.4-7.2 <8
 
-[Source 2]
-File: ncg_kenya_diabetes_guidelines_who_2024.pdf
-Page: 45
-Content: Clinical Guidelines on Management of Diabetes Mellitus 46 Figure 10: Summary of choice of medications in diabetes based on patients’ profile Note: • If HbA1c is within target and/ or they are having hypoglycemic episodes on the current regimen, consider reducing insulin +/- oral glucose lowering agents gradually. Advice on close glucose monitoring (refer to glucose monitoring section) after dose adjustments. • If HbA1c is not available several pre and 2 hours post prandial measurements done throughout the day can be used the preceding 8-12 weeks with targets <7 mmol/l and target of <9 mmol/l
-
-[Source 3]
-File: management_of_diabetes_sri_lanka_2021.pdf
-Page: 39
-Content: Annual screening for diabetes related end-organ damage should be arranged at least annually 5.2. Recommendations for HbA1c Testing 5.2.1. Perform the HbA1c test at least twice a year in patients who are meeting treatment goals (and who have stable glycemic control). 5.2.2. Perform the HbA1c test quarterly in patients whose therapy has changed between the two HbA1c tests or who are not meeting glycemic goals. 5.2.3. An HbA1c goal for many nonpregnant adults of <7% (53 mmol/mol) is appropriate. 5.2.4. On the basis of provider judgement and patient preference, achievement of lower HbA1c levels (such as <6.5%) may be acceptable if this can be achieved safely without significant hypoglycaemia or other adverse effects of treatment. 5.2.5. Less stringent A1C goals (such as <8% [64 mmol/mol]) may be appropriate for patients with: o A history of severe hypoglycaemia o Limited life expectancy o Advanced microvascular or macrovascular complications o
-
 Return the answer in exactly this format:
 Answer:
 <your answer>

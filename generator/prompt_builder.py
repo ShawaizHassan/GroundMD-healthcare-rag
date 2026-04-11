@@ -15,7 +15,6 @@ class PromptBuilder:
             "If the answer is not clearly present in the context, say: "
             "\"I could not find the answer in the provided documents.\"\n"
             "Keep the answer concise, factual, and grounded in the sources.\n"
-            "End the answer with citations using source file name and page number."
         )
 
     def _clean_text(self, text: str) -> str:
@@ -72,8 +71,8 @@ class PromptBuilder:
             f"Return the answer in exactly this format:\n"
             f"Answer:\n"
             f"<your answer>\n\n"
-            f"Citations:\n"
-            f"- [source_file, page X]\n"
+            # f"Citations:\n"
+            # f"- [source_file, page X, Confidence]\n"
         )
 
         return prompt
