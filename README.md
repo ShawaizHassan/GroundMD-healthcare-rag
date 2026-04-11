@@ -94,7 +94,7 @@ Streamlit Frontend
 
 ### 1. Clone repo
 ```bash
-git clone <your-repo>
+git clone https://github.com/ShawaizHassan/GroundMD-healthcare-rag.git
 cd GroundMD-healthcare-rag
 ```
 
