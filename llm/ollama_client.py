@@ -9,12 +9,12 @@ class OllamaLLM:
         base_url: str | None = None,
         timeout: int = 250
     ) -> None:
-        self.model = model or os.getenv("OLLAMA_MODEL", "phi3")
+        self.model = model or os.getenv("OLLAMA_MODEL", "qwen2.5:1.5b")
         self.base_url = (base_url or os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")).rstrip("/")
         self.timeout = timeout
 
     def generate(self, prompt: str) -> str:
-        url = f"{self.base_url}/backend/generate"
+        url = f"{self.base_url}/api/generate"
 
         payload = {
             "model": self.model,

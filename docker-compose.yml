@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   ollama:
     image: ollama/ollama
@@ -8,6 +6,9 @@ services:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     restart: unless-stopped
 
   backend:
@@ -19,7 +20,7 @@ services:
       - "8000:8000"
     environment:
       OLLAMA_BASE_URL: http://ollama:11434
-      OLLAMA_MODEL: phi3
+      OLLAMA_MODEL: qwen2.5:1.5b
     volumes:
       - ./data:/app/data
     depends_on:
