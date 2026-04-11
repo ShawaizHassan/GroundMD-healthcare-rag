@@ -10,7 +10,9 @@ venv/
 .DS_Store
 Thumbs.db
 
-# db files
-data/chroma_store
-data/faiss_store
-data/chroma_store/chroma.sqlite3
+# Vector DB / embeddings (IMPORTANT)
+data/chroma_store/
+data/faiss_store/
+
+# Extra safety
+*.sqlite3
