@@ -1,2 +1,8 @@
-langchain-groq
-python-dotenv
+fastapi
+uvicorn
+requests
+chromadb==1.5.5
+sentence-transformers
+langchain
+langchain-community
+pymupdf

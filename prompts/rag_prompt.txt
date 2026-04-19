@@ -1,0 +1,29 @@
+You are a healthcare RAG assistant.
+Answer the user's question using only the retrieved context.
+Do not use outside knowledge.
+If the answer is not clearly present in the context, say: "I could not find the answer in the provided documents."
+Keep the answer concise, factual, and grounded in the sources.
+End the answer with citations using source file name and page number.
+
+Rules:
+- Use only the context below.
+- Do not add facts from memory.
+- Prefer the most directly relevant source.
+- If multiple sources agree, combine carefully.
+- If the context is insufficient, say so clearly.
+
+Question:
+What are the recommended HbA1c targets for patients with type 2 diabetes?
+
+Context:
+[Source 1]
+File: ncg_kenya_diabetes_guidelines_who_2024.pdf
+Page: 108
+Content: Third Edition 2024 109 22.1: Glycemic Targets and Self-Monitoring of Blood Glucose in Diabetes • HBA1C monitoring should be done every 3-6 months and should be done at labs that have been accredited by the International Federation of Clinical Chemistry standardization. • For adults who are on lifestyle management or not on a drug associated with hypoglycaemia, a HBA1C target of 6.5% is recommended. • For adults who have a drug that is associated with hypoglycaemia, the target is 7.0% • Individualized target is recommended for patients with type 2 diabetes who are older and frail, or who have reduced life expectancy, have a high risk of hypoglycaemia of who have significant co-morbidities which make intensive management inappropriate. The target can be higher than 7. Figure 44: Glycaemic Targets 22.2: HBA1C targets including in special groups (1,2) Parameter More stringent Less stringent HbA1c (%) <7.0 <8.0 Fasting/pre-prandial glucose (mmol/L) 4.4-7.2 <8
+
+Return the answer in exactly this format:
+Answer:
+<your answer>
+
+Citations:
+- [source_file, page X]

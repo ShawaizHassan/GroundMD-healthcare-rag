@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pydantic
+requests
+chromadb==1.5.5
+sentence-transformers
+torch==2.7.0
+langchain
+langchain-community
+pymupdf
