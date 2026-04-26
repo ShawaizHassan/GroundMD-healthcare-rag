@@ -5,3 +5,7 @@ medical_db/
 .idea/
 *.log
 .DS_Store
+data/chroma_store/
+data/guidelines/
+data/raw/
+*.pdf
