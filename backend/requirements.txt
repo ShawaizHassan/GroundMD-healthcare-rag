@@ -8,3 +8,5 @@ torch==2.7.0
 langchain
 langchain-community
 pymupdf
+ollamaollama 
+ollama 

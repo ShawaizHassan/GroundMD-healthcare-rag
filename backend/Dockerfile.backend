@@ -6,6 +6,9 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir --default-timeout=1000 -r requirements.txt
 
+# Install ollama package separately (critical for backend)
+RUN pip install ollama
+
 COPY . .
 
 EXPOSE 8000
