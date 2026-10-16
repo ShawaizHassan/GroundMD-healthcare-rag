@@ -7,86 +7,6 @@ from ingestion.embedder import EmbeddingPipeline
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 class ChromaRetriever:
-    def __init__(self, 
-                 embedding_model: str = "multi-qa-MiniLM-L6-cos-v1", 
-                 persist_dir: str = r"C:\Users\PMLS\Desktop\IEDE\GroundMD-healthcare-rag\data\chroma_store",
-                 collection_name: str = "healthcare_docs"
-                 ):
-        self.embedding_model = embedding_model
-        self.persist_dir = Path("C:/temp/chroma_store")
-        self.collection_name = collection_name
-        
-        self.client = chromadb.PersistentClient(path=str(self.persist_dir))
-        self.collection = self.client.get_or_create_collection(name=self.collection_name)
-        self.embedder = EmbeddingPipeline()
-        
-    def query(self, query_text: str, top_k: int = 5) -> List[dict[str, Any]]:
-        if not query_text.strip():
-            raise ValueError("[DEBUG] query cannot be empty")
-        
-        
-        query_embedding = self.embedder.generate_query_embedding(query_text)
-        
-        print(f"[INFO] Querying vector store for: {query_text!r}")
-        
-        results = self.collection.query(
-            query_embeddings=query_embedding,
-            n_results=top_k
-        )
-        
-        output: list[dict[str, Any]] = []
-        ids = results.get("ids", [[]])[0]
-        documents = results.get("documents", [[]])[0]
-        metadatas = results.get("metadatas", [[]])[0]
-        distances = results.get("distances", [[]])[0]
-        
-        THRESHOLD = 1.2
-        
-        for id, doc_text, doc_metadata, distance in zip(
-            ids, documents, metadatas, distances
-        ):
-            if distance < THRESHOLD:
-                output.append({
-                    "text": doc_text,
-                    "score": distance,
-                    "source": doc_metadata.get("source", "unknown")
-                })
-                
-            if not output:
-                print("[WARNING] No strong match")
-
-                return [{
-                    "text": "No relevant information found.",
-                    "score": None,
-                    "source": None
-                }]
-        
-        return  output[:2]
-    
-class FaissRetriever:
-    def __init__(
-        self,
-        persist_dir: str = "C:/temp/faiss_store",
-        embedding_model: str = "multi-qa-MiniLM-L6-cos-v1"
-        ):
-        
-        self.persist_dir = Path(persist_dir)
-        self.embedding_model = embedding_model
-        self.index: faiss.Index | None = None
-        self.embedder = EmbeddingPipeline()
-    
-    @property
-    def index_path(self) -> Path:
-        return self.persist_dir /  "faiss.index"
-    
-    @property
-    def metadata_path(self) -> Path:
-        return self.persist_dir / "metadata.pkl"  
-    
-    def load(self) -> None:
-        if not self.index_path.exists():
-            raise FileNotFoundError(f"FAISS index file not found: {self.index_path}")
-
     def __init__(
         self,
         embedding_model: str = "multi-qa-MiniLM-L6-cos-v1",
@@ -103,7 +23,7 @@ class FaissRetriever:
 
         self.client = chromadb.PersistentClient(path=str(self.persist_dir))
         self.collection = self.client.get_collection(name=self.collection_name)
-        self.embedder = EmbeddingPipeline()
+        self.embedder = EmbeddingPipeline(model_name=self.embedding_model)
 
     def query(self, query_text: str, top_k: int = 5) -> List[Dict[str, Any]]:
         if not query_text.strip():
@@ -113,8 +33,6 @@ class FaissRetriever:
 
         print(f"[INFO] Querying vector store for: {query_text!r}")
 
-
-        query_embedding = self.embedder.generate_query_embedding(query_text)
 
         results = self.collection.query(
             query_embeddings=[query_embedding],
@@ -135,6 +53,8 @@ class FaissRetriever:
         output: List[Dict[str, Any]] = []
 
         for doc_id, doc_text, doc_metadata, distance in zip(ids, documents, metadatas, distances):
+            if distance >= 1.2:
+                continue
             output.append({
                 "id": doc_id,
                 "document": doc_text,
