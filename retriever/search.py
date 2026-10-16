@@ -23,7 +23,7 @@ class ChromaRetriever:
 
         self.client = chromadb.PersistentClient(path=str(self.persist_dir))
         self.collection = self.client.get_collection(name=self.collection_name)
-        self.embedder = EmbeddingPipeline()
+        self.embedder = EmbeddingPipeline(model_name=self.embedding_model)
 
     def query(self, query_text: str, top_k: int = 5) -> List[Dict[str, Any]]:
         if not query_text.strip():
@@ -33,10 +33,12 @@ class ChromaRetriever:
 
         print(f"[INFO] Querying vector store for: {query_text!r}")
 
+
         results = self.collection.query(
             query_embeddings=[query_embedding],
             n_results=top_k
         )
+
 
         ids_data = results.get("ids") or [[]]
         documents_data = results.get("documents") or [[]]
@@ -51,6 +53,8 @@ class ChromaRetriever:
         output: List[Dict[str, Any]] = []
 
         for doc_id, doc_text, doc_metadata, distance in zip(ids, documents, metadatas, distances):
+            if distance >= 1.2:
+                continue
             output.append({
                 "id": doc_id,
                 "document": doc_text,
